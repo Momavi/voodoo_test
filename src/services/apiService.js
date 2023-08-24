@@ -41,4 +41,14 @@ const fetchPostsByAuthor = async (authorId) => {
   }
 }
 
+// Выполнение запроса на получение всех users
+const fetchUsers = async () => {
+  try {
+    return await apiService.get(`/users`)
+  } catch (error) {
+    console.error('Ошибка при получении поста пользователя:', error)
+    throw error
+  }
+}
+
 export { fetchPosts, fetchPostsByAuthor }
