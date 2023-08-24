@@ -51,4 +51,4 @@ const fetchUsers = async () => {
   }
 }
 
-export { fetchPosts, fetchPostsByAuthor }
+export { fetchPosts, fetchPostsByAuthor, fetchUsers }
