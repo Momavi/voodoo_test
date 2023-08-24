@@ -22,19 +22,23 @@ apiService.interceptors.response.use(
 )
 
 // Выполнение запроса на получение всех постов
-export const fetchPosts = async () => {
+const fetchPosts = async () => {
   try {
     return await apiService.get('/posts')
-  } catch ( err ) {
-    console.log(err)
+  } catch (error) {
+    console.error('Ошибка при получении постов:', error)
+    throw error
   }
 }
 
 // Выполнение запроса на получение постов по authorId
-export const fetchPostsByAuthor = async (authorId) => {
+const fetchPostsByAuthor = async (authorId) => {
   try {
-    return await apiService.get(`/posts?userId=${authorId}`);
-  } catch (err) {
-    console.log(err);
+    return await apiService.get(`/posts?userId=${authorId}`)
+  } catch (error) {
+    console.error('Ошибка при получении поста пользователя:', error)
+    throw error
   }
-};
+}
+
+export { fetchPosts, fetchPostsByAuthor }
