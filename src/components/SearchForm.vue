@@ -4,12 +4,12 @@
       <div class="mb-4 flex">
         <input
           v-model="searchQuery"
-          class="rounded-l-xl appearance-none bg-background border-2 border-r-1 h-12 w-56 py-2 px-3 text-white placeholder-gray-400 focus:outline-none focus:shadow-outline focus:border-contrast"
+          class="rounded-l-xl appearance-none bg-background border-2 border-contrast border-r-0 h-12 w-56 py-2 px-3 text-white placeholder-gray-400 focus:outline-none focus:border-contrast/60"
           id="search"
           type="text"
           placeholder="Фильтрация по авторам"
         />
-        <button class="hover:opacity-70 hover:border-contrast rounded-r-xl border-2 border-l-1">
+        <button class="border-contrast rounded-r-xl border-2 hover:opacity-70">
           <img :src="searchIcon" class="h-full w-10 p-1" alt="поиск" />
         </button>
       </div>
@@ -31,7 +31,7 @@ async function performSearch() {
     const response = await fetchPostsByAuthor(searchQuery.value)
     emit('data-updated', response)
   } catch (error) {
-    console.error('Error fetching data:', error)
+    console.error('Не удалось получить данные:', error)
   }
 }
 </script>
