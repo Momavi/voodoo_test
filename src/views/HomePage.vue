@@ -1,24 +1,26 @@
+<template>
+  <SearchForm @data-updated="handleDataUpdated" :users="usersData" />
+  <DataDisplay :data="displayedData" :users="usersData" />
+</template>
+
 <script setup>
+import { onMounted, ref } from 'vue'
+import { fetchPosts, fetchUsers } from '@/services/apiService'
 import SearchForm from '@/components/SearchForm.vue'
 import DataDisplay from '@/components/DataDisplay.vue'
-import { onMounted, provide, ref } from 'vue'
-import { fetchPosts } from '@/services/apiService'
 
+const displayedData = ref([]) // Отображаемые данные
+const usersData = ref([]) // Данные пользователей
+
+// Загрузка данных при монтировании компонента
 onMounted(async () => {
-  // displayData.value = []
-  displayData.value = await fetchPosts()
+  const [posts, users] = await Promise.all([fetchPosts(), fetchUsers()])
+  displayedData.value = posts
+  usersData.value = users
 })
 
-const displayData = ref([])
-
-provide(SearchForm ,displayData)
-
+// Обработчик обновления данных
 function handleDataUpdated(data) {
-  displayData.value = data
+  displayedData.value = data
 }
 </script>
-
-<template>
-  <SearchForm @data-updated="handleDataUpdated" />
-  <DataDisplay :data="displayData" />
-</template>
