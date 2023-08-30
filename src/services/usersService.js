@@ -5,12 +5,13 @@
  * Поиск ID пользователя по имени
  * @param {Array} users - Массив пользователей
  * @param {string} name - Имя пользователя
- * @returns {number|string} - ID пользователя или пустая строка
+ * @returns {*[]} - ID пользователя или пустая строка
  */
 export const findUserByName = (users, name) => {
-  const user = users.find(user => user.name.includes(name));
-  return user ? user.id : '';
-};
+  const lowerCaseName = name.toLowerCase();
+  const matchingUsers = users.filter((user) => user.name.toLowerCase().includes(lowerCaseName));
+  return matchingUsers.map(user => user.id);
+}
 
 /**
  * Поиск имени пользователя по ID
@@ -19,6 +20,6 @@ export const findUserByName = (users, name) => {
  * @returns {string} - Имя пользователя или пустая строка
  */
 export const findUserNameById = (users, userId) => {
-  const user = users.find(user => user.id === userId);
-  return user ? user.name : '';
-};
+  const user = users.find((user) => user.id === userId)
+  return user ? user.name : ''
+}

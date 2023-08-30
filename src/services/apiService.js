@@ -32,14 +32,17 @@ const fetchPosts = async () => {
 }
 
 // Выполнение запроса на получение постов по authorId
-const fetchPostsByAuthor = async (authorId) => {
+const fetchPostsByAuthors = async (authorIdArray) => {
   try {
-    return await apiService.get(`/posts?userId=${authorId}`)
+    const requests = authorIdArray.map(authorId => apiService.get(`/posts?userId=${authorId}`));
+    const responses = await Promise.all(requests);
+    return responses.flatMap((response) => response);
   } catch (error) {
-    console.error('Ошибка при получении поста пользователя:', error)
-    throw error
+    console.error('Ошибка при получении постов пользователей:', error);
+    throw error;
   }
 }
+
 
 // Выполнение запроса на получение всех users
 const fetchUsers = async () => {
@@ -51,4 +54,4 @@ const fetchUsers = async () => {
   }
 }
 
-export { fetchPosts, fetchPostsByAuthor, fetchUsers }
+export { fetchPosts, fetchPostsByAuthors, fetchUsers }
