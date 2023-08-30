@@ -19,29 +19,12 @@
 
 <script setup>
 import { ref } from 'vue'
-import { fetchPosts, fetchPostsByAuthor } from '@/services/apiService'
-import { findUserByName } from '@/services/usersService'
 import searchIcon from '@/assets/search-icon.svg'
 
-const emit = defineEmits(['data-updated'])
-const props = defineProps(['users'])
-
+const emit = defineEmits(['search'])
 const searchQuery = ref('')
 
 async function performSearch() {
-  try {
-    if (searchQuery.value) {
-      const searchedUserName = findUserByName(props.users, searchQuery.value)
-      const response = await fetchPostsByAuthor(searchedUserName)
-      emit('data-updated', response)
-    }
-    if (searchQuery.value.length === 0) {
-      // Если пользователь ничего не ввел, чтобы не было пустых карточек
-      const response = await fetchPosts()
-      emit('data-updated', response)
-    }
-  } catch (error) {
-    console.error('Не удалось получить данные:', error)
-  }
+  emit('search', searchQuery.value)
 }
 </script>

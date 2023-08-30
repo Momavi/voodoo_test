@@ -1,11 +1,13 @@
 <template>
-  <SearchForm @data-updated="handleDataUpdated" :users="usersData" />
+  <SearchForm @search="handleSearchUpdated" />
   <DataDisplay :data="displayedData" :users="usersData" />
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { fetchPosts, fetchUsers } from '@/services/apiService'
+import { fetchPosts, fetchPostsByAuthors, fetchUsers } from '@/services/apiService'
+import { findUserByName } from '@/services/usersService'
+
 import SearchForm from '@/components/SearchForm.vue'
 import DataDisplay from '@/components/DataDisplay.vue'
 
@@ -20,7 +22,17 @@ onMounted(async () => {
 })
 
 // Обработчик обновления данных
-function handleDataUpdated(data) {
-  displayedData.value = data
+async function handleSearchUpdated(searchQuery) {
+  try {
+    if (searchQuery) {
+      const searchedUserName = findUserByName(usersData.value, searchQuery)
+      displayedData.value = await fetchPostsByAuthors(searchedUserName)
+    }
+    if (searchQuery.length === 0) {
+      // Если пользователь ничего не ввел, чтобы не было пустых карточек
+    }
+  } catch (error) {
+    console.error('Не удалось получить данные:', error)
+  }
 }
 </script>
